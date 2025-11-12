@@ -1,0 +1,68 @@
+.maincontact-container {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.maincontact-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  width: 80%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: grid;
+  /* flex-direction: column; */
+  overflow: hidden;
+}
+
+.maincontact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* Full-width name bar */
+.maincontact-card h3 {
+  background: #4e73df;
+  color: #fff;
+  font-size: 12px;
+  padding: 12px;
+  margin: 0;
+}
+
+/* Full-width info sections */
+.maincontact-card p {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+}
+
+.maincontact-card .message {
+  font-style: italic;
+  background: #f5f5f5;
+  color: #444;
+}
+
+/* Full-width delete button */
+.delete-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-top: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #e60000;
+}

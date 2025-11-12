@@ -1,0 +1,64 @@
+.books-page {
+  padding: 20px;
+}
+
+.book-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.book-form input,
+.book-form textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1 1 200px;
+}
+
+.book-form button {
+  padding: 10px 15px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.book-form button:hover {
+  background: #1d4ed8;
+}
+
+.books-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.books-table th,
+.books-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.books-table img {
+  border-radius: 4px;
+}
+
+.books-table button {
+  margin-right: 5px;
+  padding: 5px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.books-table button:first-child {
+  background: #facc15;
+}
+
+.books-table button:last-child {
+  background: #ef4444;
+  color: white;
+}
