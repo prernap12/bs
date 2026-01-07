@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { FaSearch, FaHeart, FaEye } from "react-icons/fa";
 import axios from "axios";
-import "../App.css";
+import "./FeaturedBooks.css";
 import "swiper/swiper-bundle.css";
 
 const FeaturedBooks = () => {
@@ -75,7 +75,7 @@ const FeaturedBooks = () => {
 
                 <div className="image">
                   <img
-                    src={`http://localhost:5000/uploads/${book.image}`}
+                    src={book.image}
                     alt={book.name}
                   />
                 </div>
@@ -102,4 +102,4 @@ const FeaturedBooks = () => {
   );
 };
 
-export default FeaturedBooks;
+export default FeaturedBooks; 

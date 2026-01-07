@@ -3,6 +3,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { FaStar, FaStarHalf } from "react-icons/fa";
+import Navbar from "./navbar";
 
 // Import swiper styles
 
@@ -19,9 +20,16 @@ const swiperOptionThree = {
 
 const Nepali = () => {
   return (
-    <section className="arrivals" id="arrivals">
-      <div className="heading">
+    <>
     
+    <Navbar />
+    <section className="arrivals" id="arrivals">
+      
+      <div className="heading">
+
+        <span>Nepali Books</span>
+    
+  
       </div>
 
       <div className="swiper">
@@ -76,6 +84,7 @@ const Nepali = () => {
         </Swiper>
       </div>
     </section>
+    </>
   );
 };
 

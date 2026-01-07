@@ -13,28 +13,59 @@ import {
 import { FaCartArrowDown } from "react-icons/fa";
 import Login from "./login";
 import Cart from "./Cart";
+import axios from "axios";
+import "../App.css";
 
 const Navbar = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [username, setUsername] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  
+
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [showCart, setShowCart] = useState(false);
+
+  const [showSearchPopup, setShowSearchPopup] = useState(false);
 
   const dropdownRef = useRef(null);
 
+  // ---------------------- LOGIN / DROPDOWN TOGGLE -----------------------
   const toggleLoginOrDropdown = () => {
     if (username) {
-      // If logged in → toggle dropdown
       setShowDropdown((prev) => !prev);
     } else {
-      // If not logged in → show login modal
       setShowLogin((prev) => !prev);
       document.body.classList.toggle("login-active");
     }
   };
 
-  // ✅ Close dropdown if clicked outside
+  // ---------------------- SEARCH SUBMIT -----------------------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setShowSearchPopup(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/books/search",
+        { params: { book: searchValue } }
+      );
+
+      // FIX: backend returns an array, not response.data.books
+      setSearchResults(response.data);
+    } catch (err) {
+      console.log(err);
+      setError("Something went wrong while searching.");
+    }
+
+    setLoading(false);
+  };
+
+  // ---------------------- CLOSE DROPDOWN WHEN CLICKING OUTSIDE -----------------------
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -45,7 +76,7 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ Load username from localStorage
+  // ---------------------- LOAD USERNAME -----------------------
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
@@ -53,7 +84,7 @@ const Navbar = () => {
     }
   }, [showLogin]);
 
-  // ✅ Logout functionality
+  // ---------------------- LOGOUT -----------------------
   const handleLogout = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("token");
@@ -69,27 +100,29 @@ const Navbar = () => {
             <FaBook /> Newroad Bookstore
           </a>
 
-          {/* Search */}
-          <form className="search-form">
-            <input type="search" id="search-box" placeholder="search here" />
+          {/* 🔍 SEARCH BAR */}
+          <form className="search-form" onSubmit={handleSubmit}>
+            <input
+              type="search"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              id="search-box"
+              placeholder="search here"
+            />
             <label htmlFor="search-box">
               <FaSearch />
             </label>
           </form>
 
-          {/* Icons */}
+          {/* ❤️ CART + USER */}
           <div className="icons">
-            <div id="search-btn">
-              <FaSearch />
-            </div>
             <a href="/#">
               <FaHeart />
             </a>
-                <div onClick={() => setShowCart(true)}>
-            <FaCartArrowDown />
-          </div>
+            <div onClick={() => setShowCart(true)}>
+              <FaCartArrowDown />
+            </div>
 
-            {/* User / Username Dropdown */}
             <div
               id="login-btn"
               className={`user-btn ${showDropdown ? "open" : ""}`}
@@ -105,7 +138,6 @@ const Navbar = () => {
                 <FaUser />
               )}
 
-              {/* ✅ Dropdown Menu */}
               {username && showDropdown && (
                 <div className="user-dropdown">
                   <button onClick={() => alert("Open Profile Component")}>
@@ -121,13 +153,13 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Navbar links */}
+        {/* NAV LINKS */}
         <div className="header_two">
           <div className="navbar">
             <a href="/">Home</a>
             <a href="/featured">Featured</a>
             <a href="/arrivals">Arrivals</a>
-            <a href="/nepali">Nepaligit</a>
+            <a href="/nepali">Nepali</a>
           </div>
           <div className="right_nb">
             <a href="/contact">Contact Us</a>
@@ -135,9 +167,7 @@ const Navbar = () => {
         </div>
       </header>
 
-      
-
-      {/* Bottom Navbar */}
+      {/* BOTTOM NAVBAR */}
       <div className="bottom-navbar">
         <a href="/#">
           <FaHome />
@@ -153,10 +183,55 @@ const Navbar = () => {
         </a>
       </div>
 
-      {/* Conditionally render Login */}
+      {/* LOGIN + CART */}
       {showLogin && <Login onClose={toggleLoginOrDropdown} />}
-         {/* ✅ Show Cart */}
       {showCart && <Cart onClose={() => setShowCart(false)} />}
+
+      {/* ---------------------- POPUP SEARCH RESULT ---------------------- */}
+      {showSearchPopup && (
+        <div
+          className="popup-overlay"
+          onClick={() => setShowSearchPopup(false)}
+        >
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <h2 className="popup-title">Search Results</h2>
+
+            {loading && <p className="popup-loading">Loading...</p>}
+            {error && <p className="popup-error">{error}</p>}
+
+            {searchResults.length === 0 && !loading && (
+              <p className="popup-noresults">No books found.</p>
+            )}
+
+            <div className="popup-results">
+              {searchResults.map((book) => (
+                <div key={book._id} className="popup-item">
+                  <img
+                    src={
+                      book.image
+                        ? `http://localhost:5000/uploads/${book.image}`
+                        : "/placeholder.jpg"
+                    }
+                    alt={book.name}
+                    className="popup-img"
+                  />
+                  <div>
+                    <h3 className="popup-item-title">{book.name}</h3>
+                    <p className="popup-item-author">{book.author}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              className="popup-close"
+              onClick={() => setShowSearchPopup(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

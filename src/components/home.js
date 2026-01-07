@@ -1,5 +1,5 @@
 import React from "react";
-//import Navbar from './navbar';
+import Navbar from './navbar';
 import { FaPlane, FaLock, FaSearch,FaHeart,FaEye,FaStar,FaStarHalf} from "react-icons/fa";
 import {FaHeadset} from "react-icons/fa";
 import { Swiper,SwiperSlide } from "swiper/react";
@@ -13,6 +13,7 @@ import FeaturedBooks from "./FeaturedBooks";
 import HomeBanner from "./HomeBanner";
 import FAQSection from "./Faqs";
 import Nepali from "./NepaliBooks";
+
 
 const Home = () => {
     const swiperOptionOne ={
@@ -76,9 +77,11 @@ const Home = () => {
         centeredSlides:true,
         spaceBetween:10,
     };
+
     return (
+
         <div className="home-container">
-          
+          <Navbar />
            <section className="home" id="home">
           <HomeBanner />
            </section>
@@ -88,8 +91,9 @@ const Home = () => {
            </section> 
 
            <section className="featured" id="featured">
-                        <FeaturedBooks />
-           </section>
+    <FeaturedBooks limit={3} random />
+</section>
+
 
            <section className="newsletter">
             <form action="">

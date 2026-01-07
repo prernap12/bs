@@ -12,7 +12,7 @@ import Dashboard from './pages/admin/components/Dashboard';
 function App() {
   return (
   <>
-    <Navbar/>
+    
     <Router>
       <div className="App">
         <Routes>
