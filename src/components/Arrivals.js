@@ -3,6 +3,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { FaStar, FaStarHalf } from "react-icons/fa";
+import axios from "axios";
 
 // Import swiper styles
 import "swiper/css";

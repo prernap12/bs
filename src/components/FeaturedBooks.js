@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { FaSearch, FaHeart, FaEye } from "react-icons/fa";
-import axios from "axios";
+import app from "./axios.js";
 import "./FeaturedBooks.css";
 import "swiper/swiper-bundle.css";
 
@@ -14,7 +14,7 @@ const FeaturedBooks = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/books");
+        const res = await app.get("/api/books");
         setBooks(res.data);
       } catch (err) {
         console.error("Error fetching books:", err);
@@ -32,8 +32,8 @@ const FeaturedBooks = () => {
         return;
       }
 
-      const res = await axios.post(
-        "http://localhost:5000/api/addtocart/add",
+      const res = await app.post(
+        "/api/addtocart/add",
         { bookId: book._id, qty: 1 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
